@@ -278,6 +278,8 @@ void loop() {
     //Joystick.setThrottle(currentPotPin);
     lastPotPin = currentPotPin;
   }
+  //The selector switch have 160 ohm resistors to each output. 
+  //The following is the read analog input for each turn of the knob.
   //1
   //256
   //510
