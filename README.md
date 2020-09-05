@@ -28,6 +28,7 @@ Using the following libs:
 ![schematic](https://github.com/christoferjh/HID_buttonbox/blob/master/images/schem.png)
 
 ## BOM
+This is almost correct:
 
 | Label | Part Type                | Properties                                                                 |
 | ----- | ------------------------ | -------------------------------------------------------------------------- |
