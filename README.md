@@ -4,6 +4,7 @@ Button box primarily for flight simulation
 ![schematic](https://github.com/christoferjh/HID_buttonbox/blob/master/images/img_box.PNG)
 ## How the display and leds work
 ![schematic](https://github.com/christoferjh/HID_buttonbox/blob/master/images/box.gif)
+![schematic](https://github.com/christoferjh/HID_buttonbox/blob/master/images/buttons.gif)
 
 # Really messy schematic, probably corretly wired
 ![schematic](https://github.com/christoferjh/HID_buttonbox/blob/master/images/schem.png)
