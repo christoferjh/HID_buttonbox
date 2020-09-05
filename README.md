@@ -13,6 +13,65 @@ Button box primarily for flight simulation
 ![schematic](https://github.com/christoferjh/HID_buttonbox/blob/master/images/img_box_messy.PNG)
 
 # BOM
+
+| Label | Part Type                | Properties                                                                 |
+| ----- | ------------------------ | -------------------------------------------------------------------------- |
+| LED1  | Red (633nm) LED          | leg yes; color Red (633nm); package 3 mm \[THT\]                           |
+| LED2  | Red (633nm) LED          | leg yes; color Red (633nm); package 3 mm \[THT\]                           |
+| LED3  | Red (633nm) LED          | leg yes; color Red (633nm); package 3 mm \[THT\]                           |
+| LED4  | Red (633nm) LED          | leg yes; color Red (633nm); package 3 mm \[THT\]                           |
+| LED5  | Red (633nm) LED          | leg yes; color Red (633nm); package 3 mm \[THT\]                           |
+| LED6  | Red (633nm) LED          | leg yes; color Red (633nm); package 3 mm \[THT\]                           |
+| Part1 | Arduino Leonardo (Rev3b) | type Arduino Leonardo (Rev3)                                               |
+| R1    | 220Ω Resistor            | pin spacing 400 mil; bands 4; resistance 220Ω; tolerance ±5%; package THT  |
+| R3    | 1kΩ Resistor             | pin spacing 400 mil; bands 4; resistance 1kΩ; tolerance ±5%; package THT   |
+| R4    | 220Ω Resistor            | pin spacing 400 mil; bands 4; resistance 220Ω; tolerance ±5%; package THT  |
+| R5    | 220Ω Resistor            | pin spacing 400 mil; bands 4; resistance 220Ω; tolerance ±5%; package THT  |
+| R6    | 220Ω Resistor            | pin spacing 400 mil; bands 4; resistance 220Ω; tolerance ±5%; package THT  |
+| R7    | 220Ω Resistor            | pin spacing 400 mil; bands 4; resistance 220Ω; tolerance ±5%; package THT  |
+| R8    | 220Ω Resistor            | pin spacing 400 mil; bands 4; resistance 220Ω; tolerance ±5%; package THT  |
+| R9    | 1kΩ Resistor             | pin spacing 400 mil; bands 4; resistance 1kΩ; tolerance ±5%; package THT   |
+| R10   | 2.2kΩ Resistor           | pin spacing 400 mil; bands 4; resistance 2.2kΩ; tolerance ±5%; package THT |
+| R12   | 1kΩ Resistor             | pin spacing 400 mil; bands 4; resistance 1kΩ; tolerance ±5%; package THT   |
+| R13   | 1kΩ Resistor             | pin spacing 400 mil; bands 4; resistance 1kΩ; tolerance ±5%; package THT   |
+| R14   | 2.2kΩ Resistor           | pin spacing 400 mil; bands 4; resistance 2.2kΩ; tolerance ±5%; package THT |
+| R15   | 4.3kΩ Resistor           | pin spacing 400 mil; bands 4; resistance 4.3kΩ; tolerance ±5%; package THT |
+| R16   | 220Ω Resistor            | pin spacing 400 mil; bands 4; resistance 220Ω; tolerance ±5%; package THT  |
+| RE1   | Rotary Encoder           | type ALPS STEC12E07; package THT                                           |
+| S1    | Square Pushbutton        | default state Normally Open; switching circuit SPST                        |
+| S2    | Square Pushbutton        | default state Normally Open; switching circuit SPST                        |
+| S3    | Square Pushbutton        | default state Normally Open; switching circuit SPST                        |
+| S4    | Square Pushbutton        | default state Normally Open; switching circuit SPST                        |
+| S5    | Square Pushbutton        | default state Normally Open; switching circuit SPST                        |
+| U1    | SWITCH\_SPDT             | package kps-1290                                                           |
+| U2    | 74HC595                  | type 74HC595; package DIP16 \[THT\]                                        |
+| U3    | POT                      | variant mam; package pot\_mammoth                                          |
+| U4    | POT                      | variant mam; package pot\_mammoth                                          |
+| U5    | POT                      | variant mam; package pot\_mammoth                                          |
+| U6    | SWITCH\_SPDT             | package kps-1290                                                           |
+| U7    | SWITCH\_SPDT             | package kps-1290                                                           |
+| U8    | SWITCH\_SPDT             | package kps-1290                                                           |
+| U9    | SWITCH\_SPDT             | package kps-1290                                                           |
+| U10   | SWITCH\_SPDT             | package kps-1290                                                           |
+| U11   | 7-SEGMENT-4DIGIT         | segments 7; digits 4; variant variant 1; package 7-segment-4digit-youngsun |
+
+## Shopping list
+
+| Amount | Part Type                | Properties                                                                 |
+| ------ | ------------------------ | -------------------------------------------------------------------------- |
+| 6      | Red (633nm) LED          | leg yes; color Red (633nm); package 3 mm \[THT\]                           |
+| 1      | Arduino Leonardo (Rev3b) | type Arduino Leonardo (Rev3)                                               |
+| 7      | 220Ω Resistor            | pin spacing 400 mil; bands 4; resistance 220Ω; tolerance ±5%; package THT  |
+| 4      | 1kΩ Resistor             | pin spacing 400 mil; bands 4; resistance 1kΩ; tolerance ±5%; package THT   |
+| 2      | 2.2kΩ Resistor           | pin spacing 400 mil; bands 4; resistance 2.2kΩ; tolerance ±5%; package THT |
+| 1      | 4.3kΩ Resistor           | pin spacing 400 mil; bands 4; resistance 4.3kΩ; tolerance ±5%; package THT |
+| 1      | Rotary Encoder           | type ALPS STEC12E07; package THT                                           |
+| 5      | Square Pushbutton        | default state Normally Open; switching circuit SPST                        |
+| 6      | SWITCH\_SPDT             | package kps-1290                                                           |
+| 1      | 74HC595                  | type 74HC595; package DIP16 \[THT\]                                        |
+| 3      | POT                      | variant mam; package pot\_mammoth                                          |
+| 1      | 7-SEGMENT-4DIGIT         | segments 7; digits 4; variant variant 1; package 7-segment-4digit-youngsun |
+
 [BOM](https://github.com/christoferjh/HID_buttonbox/blob/master/bom.html)
 
 
