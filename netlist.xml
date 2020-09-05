@@ -1,0 +1,515 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Created with Fritzing (http://www.fritzing.org/) -->
+<netlist date="lör sep 5 11:31:36 2020" sketch="flight_switch.fzz">
+ <net>
+  <connector id="connector1" name="SCLE">
+   <part id="112490" title="7-SEGMENT-4DIGIT" label="U11"/>
+  </connector>
+  <connector id="connector83" name="D7">
+   <part id="62970" title="Arduino Leonardo (Rev3b)" label="Part1"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector1" name="leg1">
+   <part id="97780" title="Square Pushbutton" label="S4"/>
+  </connector>
+  <connector id="connector81" name="D5 PWM">
+   <part id="62970" title="Arduino Leonardo (Rev3b)" label="Part1"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector1" name="leg1">
+   <part id="97760" title="Square Pushbutton" label="S3"/>
+  </connector>
+  <connector id="connector80" name="D4/A6">
+   <part id="62970" title="Arduino Leonardo (Rev3b)" label="Part1"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector1" name="leg1">
+   <part id="97800" title="Square Pushbutton" label="S5"/>
+  </connector>
+  <connector id="connector82" name="D6 PWM/A7">
+   <part id="62970" title="Arduino Leonardo (Rev3b)" label="Part1"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector1" name="Pin 1">
+   <part id="72460" title="220Ω Resistor" label="R8"/>
+  </connector>
+  <connector id="connector0" name="cathode">
+   <part id="72450" title="Red (633nm) LED" label="LED6"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector0" name="cathode">
+   <part id="72280" title="Red (633nm) LED" label="LED5"/>
+  </connector>
+  <connector id="connector1" name="Pin 1">
+   <part id="72290" title="220Ω Resistor" label="R7"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector0" name="S">
+   <part id="67290" title="POT" label="U3"/>
+  </connector>
+  <connector id="connector95" name="A3">
+   <part id="62970" title="Arduino Leonardo (Rev3b)" label="Part1"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector0" name="EncoderPinA">
+   <part id="63110" title="Rotary Encoder" label="RE1"/>
+  </connector>
+  <connector id="connector76" name="D0/RX">
+   <part id="62970" title="Arduino Leonardo (Rev3b)" label="Part1"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector0" name="cathode">
+   <part id="71270" title="Red (633nm) LED" label="LED2"/>
+  </connector>
+  <connector id="connector1" name="Pin 1">
+   <part id="71280" title="220Ω Resistor" label="R4"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector0" name="cathode">
+   <part id="71600" title="Red (633nm) LED" label="LED3"/>
+  </connector>
+  <connector id="connector1" name="Pin 1">
+   <part id="71610" title="220Ω Resistor" label="R5"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector2" name="EncoderPinB">
+   <part id="63110" title="Rotary Encoder" label="RE1"/>
+  </connector>
+  <connector id="connector77" name="D1/TX">
+   <part id="62970" title="Arduino Leonardo (Rev3b)" label="Part1"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector1" name="leg1">
+   <part id="97740" title="Square Pushbutton" label="S2"/>
+  </connector>
+  <connector id="connector107" name="SCL">
+   <part id="62970" title="Arduino Leonardo (Rev3b)" label="Part1"/>
+  </connector>
+  <connector id="connector79" name="D3 PWM/SCL">
+   <part id="62970" title="Arduino Leonardo (Rev3b)" label="Part1"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector1" name="leg1">
+   <part id="68490" title="Square Pushbutton" label="S1"/>
+  </connector>
+  <connector id="connector106" name="SDA">
+   <part id="62970" title="Arduino Leonardo (Rev3b)" label="Part1"/>
+  </connector>
+  <connector id="connector78" name="D2/SDA">
+   <part id="62970" title="Arduino Leonardo (Rev3b)" label="Part1"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector94" name="A2">
+   <part id="62970" title="Arduino Leonardo (Rev3b)" label="Part1"/>
+  </connector>
+  <connector id="connector1" name="Pin 1">
+   <part id="138290" title="220Ω Resistor" label="R16"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector0" name="Pin 0">
+   <part id="124800" title="1kΩ Resistor" label="R13"/>
+  </connector>
+  <connector id="connector0" name="Pin 0">
+   <part id="123760" title="1kΩ Resistor" label="R12"/>
+  </connector>
+  <connector id="connector0" name="Pin 0">
+   <part id="124980" title="2.2kΩ Resistor" label="R14"/>
+  </connector>
+  <connector id="connector0" name="Pin 0">
+   <part id="125160" title="4.3kΩ Resistor" label="R15"/>
+  </connector>
+  <connector id="connector92" name="A0">
+   <part id="62970" title="Arduino Leonardo (Rev3b)" label="Part1"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector1" name="Pin 1">
+   <part id="69870" title="1kΩ Resistor" label="R3"/>
+  </connector>
+  <connector id="connector4" name="O">
+   <part id="97860" title="SWITCH_SPDT" label="U9"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector4" name="O">
+   <part id="97820" title="SWITCH_SPDT" label="U7"/>
+  </connector>
+  <connector id="connector1" name="Pin 1">
+   <part id="125160" title="4.3kΩ Resistor" label="R15"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector1" name="anode">
+   <part id="71270" title="Red (633nm) LED" label="LED2"/>
+  </connector>
+  <connector id="connector1" name="Q2">
+   <part id="63200" title="74HC595" label="U2"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector4" name="O">
+   <part id="97720" title="SWITCH_SPDT" label="U6"/>
+  </connector>
+  <connector id="connector1" name="Pin 1">
+   <part id="124980" title="2.2kΩ Resistor" label="R14"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector3" name="DIO">
+   <part id="112490" title="7-SEGMENT-4DIGIT" label="U11"/>
+  </connector>
+  <connector id="connector103" name="D13 PWM">
+   <part id="62970" title="Arduino Leonardo (Rev3b)" label="Part1"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector1" name="anode">
+   <part id="71600" title="Red (633nm) LED" label="LED3"/>
+  </connector>
+  <connector id="connector2" name="Q3">
+   <part id="63200" title="74HC595" label="U2"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector1" name="Pin 1">
+   <part id="122210" title="2.2kΩ Resistor" label="R10"/>
+  </connector>
+  <connector id="connector4" name="O">
+   <part id="97840" title="SWITCH_SPDT" label="U8"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector1" name="anode">
+   <part id="71770" title="Red (633nm) LED" label="LED4"/>
+  </connector>
+  <connector id="connector3" name="Q4">
+   <part id="63200" title="74HC595" label="U2"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector0" name="S">
+   <part id="95140" title="POT" label="U5"/>
+  </connector>
+  <connector id="connector96" name="A4">
+   <part id="62970" title="Arduino Leonardo (Rev3b)" label="Part1"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector0" name="S">
+   <part id="95120" title="POT" label="U4"/>
+  </connector>
+  <connector id="connector97" name="A5">
+   <part id="62970" title="Arduino Leonardo (Rev3b)" label="Part1"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector1" name="anode">
+   <part id="72280" title="Red (633nm) LED" label="LED5"/>
+  </connector>
+  <connector id="connector4" name="Q5">
+   <part id="63200" title="74HC595" label="U2"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector1" name="anode">
+   <part id="72450" title="Red (633nm) LED" label="LED6"/>
+  </connector>
+  <connector id="connector5" name="Q6">
+   <part id="63200" title="74HC595" label="U2"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector2" name="RCLE">
+   <part id="112490" title="7-SEGMENT-4DIGIT" label="U11"/>
+  </connector>
+  <connector id="connector98" name="D8/A8">
+   <part id="62970" title="Arduino Leonardo (Rev3b)" label="Part1"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector0" name="Q1">
+   <part id="63200" title="74HC595" label="U2"/>
+  </connector>
+  <connector id="connector1" name="anode">
+   <part id="66360" title="Red (633nm) LED" label="LED1"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector4" name="O">
+   <part id="62860" title="SWITCH_SPDT" label="U1"/>
+  </connector>
+  <connector id="connector1" name="Pin 1">
+   <part id="124800" title="1kΩ Resistor" label="R13"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector0" name="cathode">
+   <part id="66360" title="Red (633nm) LED" label="LED1"/>
+  </connector>
+  <connector id="connector1" name="Pin 1">
+   <part id="69360" title="220Ω Resistor" label="R1"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector1" name="Pin 1">
+   <part id="71780" title="220Ω Resistor" label="R6"/>
+  </connector>
+  <connector id="connector0" name="cathode">
+   <part id="71770" title="Red (633nm) LED" label="LED4"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector13" name="DS">
+   <part id="63200" title="74HC595" label="U2"/>
+  </connector>
+  <connector id="connector101" name="D11 PWM">
+   <part id="62970" title="Arduino Leonardo (Rev3b)" label="Part1"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector11" name="ST_CP">
+   <part id="63200" title="74HC595" label="U2"/>
+  </connector>
+  <connector id="connector100" name="D10 PWM/A10">
+   <part id="62970" title="Arduino Leonardo (Rev3b)" label="Part1"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector102" name="D12/A11">
+   <part id="62970" title="Arduino Leonardo (Rev3b)" label="Part1"/>
+  </connector>
+  <connector id="connector10" name="SH_CP">
+   <part id="63200" title="74HC595" label="U2"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector0" name="Pin 0">
+   <part id="120430" title="1kΩ Resistor" label="R9"/>
+  </connector>
+  <connector id="connector0" name="Pin 0">
+   <part id="122210" title="2.2kΩ Resistor" label="R10"/>
+  </connector>
+  <connector id="connector0" name="Pin 0">
+   <part id="69870" title="1kΩ Resistor" label="R3"/>
+  </connector>
+  <connector id="connector93" name="A1">
+   <part id="62970" title="Arduino Leonardo (Rev3b)" label="Part1"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector15" name="VCC">
+   <part id="63200" title="74HC595" label="U2"/>
+  </connector>
+  <connector id="connector9" name="MR">
+   <part id="63200" title="74HC595" label="U2"/>
+  </connector>
+  <connector id="connector0" name="VCC">
+   <part id="112490" title="7-SEGMENT-4DIGIT" label="U11"/>
+  </connector>
+  <connector id="connector88" name="5V">
+   <part id="62970" title="Arduino Leonardo (Rev3b)" label="Part1"/>
+  </connector>
+  <connector id="connector5" name="P">
+   <part id="97840" title="SWITCH_SPDT" label="U8"/>
+  </connector>
+  <connector id="connector1" name="A">
+   <part id="67290" title="POT" label="U3"/>
+  </connector>
+  <connector id="connector5" name="P">
+   <part id="97820" title="SWITCH_SPDT" label="U7"/>
+  </connector>
+  <connector id="connector5" name="P">
+   <part id="97860" title="SWITCH_SPDT" label="U9"/>
+  </connector>
+  <connector id="connector1" name="A">
+   <part id="95120" title="POT" label="U4"/>
+  </connector>
+  <connector id="connector5" name="P">
+   <part id="97720" title="SWITCH_SPDT" label="U6"/>
+  </connector>
+  <connector id="connector1" name="A">
+   <part id="95140" title="POT" label="U5"/>
+  </connector>
+  <connector id="connector5" name="P">
+   <part id="62860" title="SWITCH_SPDT" label="U1"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector0" name="leg0">
+   <part id="97800" title="Square Pushbutton" label="S5"/>
+  </connector>
+  <connector id="connector0" name="leg0">
+   <part id="97780" title="Square Pushbutton" label="S4"/>
+  </connector>
+  <connector id="connector0" name="leg0">
+   <part id="97760" title="Square Pushbutton" label="S3"/>
+  </connector>
+  <connector id="connector104" name="GND">
+   <part id="62970" title="Arduino Leonardo (Rev3b)" label="Part1"/>
+  </connector>
+  <connector id="connector89" name="GND">
+   <part id="62970" title="Arduino Leonardo (Rev3b)" label="Part1"/>
+  </connector>
+  <connector id="connector90" name="GND">
+   <part id="62970" title="Arduino Leonardo (Rev3b)" label="Part1"/>
+  </connector>
+  <connector id="connector0" name="leg0">
+   <part id="97740" title="Square Pushbutton" label="S2"/>
+  </connector>
+  <connector id="connector4" name="GND">
+   <part id="112490" title="7-SEGMENT-4DIGIT" label="U11"/>
+  </connector>
+  <connector id="connector0" name="leg0">
+   <part id="68490" title="Square Pushbutton" label="S1"/>
+  </connector>
+  <connector id="connector1" name="EncoderPinC">
+   <part id="63110" title="Rotary Encoder" label="RE1"/>
+  </connector>
+  <connector id="connector2" name="E">
+   <part id="95120" title="POT" label="U4"/>
+  </connector>
+  <connector id="connector2" name="E">
+   <part id="67290" title="POT" label="U3"/>
+  </connector>
+  <connector id="connector1" name="Pin 1">
+   <part id="123760" title="1kΩ Resistor" label="R12"/>
+  </connector>
+  <connector id="connector2" name="E">
+   <part id="95140" title="POT" label="U5"/>
+  </connector>
+  <connector id="connector1" name="Pin 1">
+   <part id="120430" title="1kΩ Resistor" label="R9"/>
+  </connector>
+  <connector id="connector7" name="GND">
+   <part id="63200" title="74HC595" label="U2"/>
+  </connector>
+  <connector id="connector12" name="OE">
+   <part id="63200" title="74HC595" label="U2"/>
+  </connector>
+  <connector id="connector0" name="Pin 0">
+   <part id="72460" title="220Ω Resistor" label="R8"/>
+  </connector>
+  <connector id="connector0" name="Pin 0">
+   <part id="72290" title="220Ω Resistor" label="R7"/>
+  </connector>
+  <connector id="connector0" name="Pin 0">
+   <part id="71780" title="220Ω Resistor" label="R6"/>
+  </connector>
+  <connector id="connector0" name="Pin 0">
+   <part id="71610" title="220Ω Resistor" label="R5"/>
+  </connector>
+  <connector id="connector0" name="Pin 0">
+   <part id="71280" title="220Ω Resistor" label="R4"/>
+  </connector>
+  <connector id="connector0" name="Pin 0">
+   <part id="69360" title="220Ω Resistor" label="R1"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector0" name="Pin 0">
+   <part id="138290" title="220Ω Resistor" label="R16"/>
+  </connector>
+  <connector id="connector6" name="S">
+   <part id="97900" title="SWITCH_SPDT" label="U10"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector5" name="P">
+   <part id="97900" title="SWITCH_SPDT" label="U10"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector14" name="Q0">
+   <part id="63200" title="74HC595" label="U2"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector8" name="Q7'">
+   <part id="63200" title="74HC595" label="U2"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector6" name="Q7">
+   <part id="63200" title="74HC595" label="U2"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector99" name="D9 PWM/A9">
+   <part id="62970" title="Arduino Leonardo (Rev3b)" label="Part1"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector87" name="3V3">
+   <part id="62970" title="Arduino Leonardo (Rev3b)" label="Part1"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector105" name="AREF">
+   <part id="62970" title="Arduino Leonardo (Rev3b)" label="Part1"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector85" name="IOREF">
+   <part id="62970" title="Arduino Leonardo (Rev3b)" label="Part1"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector86" name="RESET">
+   <part id="62970" title="Arduino Leonardo (Rev3b)" label="Part1"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector91" name="VIN">
+   <part id="62970" title="Arduino Leonardo (Rev3b)" label="Part1"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector84" name="n.c.">
+   <part id="62970" title="Arduino Leonardo (Rev3b)" label="Part1"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector4" name="O">
+   <part id="97900" title="SWITCH_SPDT" label="U10"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector6" name="S">
+   <part id="97860" title="SWITCH_SPDT" label="U9"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector6" name="S">
+   <part id="97840" title="SWITCH_SPDT" label="U8"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector6" name="S">
+   <part id="97820" title="SWITCH_SPDT" label="U7"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector6" name="S">
+   <part id="97720" title="SWITCH_SPDT" label="U6"/>
+  </connector>
+ </net>
+ <net>
+  <connector id="connector6" name="S">
+   <part id="62860" title="SWITCH_SPDT" label="U1"/>
+  </connector>
+ </net>
+</netlist>
