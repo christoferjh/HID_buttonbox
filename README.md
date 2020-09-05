@@ -6,13 +6,16 @@ Button box primarily for flight simulation
 ![schematic](https://github.com/christoferjh/HID_buttonbox/blob/master/images/box.gif)
 ![schematic](https://github.com/christoferjh/HID_buttonbox/blob/master/images/buttons.gif)
 
-# Really messy schematic, probably corretly wired
-![schematic](https://github.com/christoferjh/HID_buttonbox/blob/master/images/schem.png)
+
 ## And the hidden mess under the lid...
 ![schematic](https://github.com/christoferjh/HID_buttonbox/blob/master/images/img_box_inside.PNG)
 ![schematic](https://github.com/christoferjh/HID_buttonbox/blob/master/images/img_box_messy.PNG)
 
-# BOM
+
+# Really messy schematic, probably correctly wired
+![schematic](https://github.com/christoferjh/HID_buttonbox/blob/master/images/schem.png)
+
+## BOM
 
 | Label | Part Type                | Properties                                                                 |
 | ----- | ------------------------ | -------------------------------------------------------------------------- |
