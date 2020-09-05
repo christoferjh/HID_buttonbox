@@ -1,5 +1,11 @@
 # HID_buttonbox
 Button box primarily for flight simulation 
+
+## Before you look at the code..
+  THIS IS THE AD-HOC HARDWARE-TEST VERSION 0.0.1!
+  This is problably one of the ugliest pice of code you have ever seen (at least from me).
+  Don't judge me...
+
 # The finished button box
 ![schematic](https://github.com/christoferjh/HID_buttonbox/blob/master/images/img_box.PNG)
 ## How the display and leds work
