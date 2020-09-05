@@ -12,7 +12,7 @@ Button box primarily for flight simulation
 ![schematic](https://github.com/christoferjh/HID_buttonbox/blob/master/images/img_box_messy.PNG)
 
 # BOM
-[GitHub](https://github.com/christoferjh/HID_buttonbox/blob/master/bom.html)
+[BOM](https://github.com/christoferjh/HID_buttonbox/blob/master/bom.html)
 
 
 # Bonus content, easy DIY flight yoke
