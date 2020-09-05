@@ -11,6 +11,12 @@ Button box primarily for flight simulation
 ![schematic](https://github.com/christoferjh/HID_buttonbox/blob/master/images/img_box_inside.PNG)
 ![schematic](https://github.com/christoferjh/HID_buttonbox/blob/master/images/img_box_messy.PNG)
 
+# Code
+The code is just the hardware test verison.
+Using the following libs:
+[ArduinoJoystickLibrary](https://github.com/MHeironimus/ArduinoJoystickLibrary)
+[DigitalTube](https://github.com/ioxhop/DigitalTube)
+
 
 # Really messy schematic, probably correctly wired
 ![schematic](https://github.com/christoferjh/HID_buttonbox/blob/master/images/schem.png)
