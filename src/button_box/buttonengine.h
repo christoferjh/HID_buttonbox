@@ -9,6 +9,7 @@ class Button {
     byte pin;
     byte joybutton;
     int state;
+    bool changed=true;
     bool reverse=false;
   public:
     Button(byte pin, byte joybutton) {
@@ -24,6 +25,9 @@ class Button {
       pinMode(pin, INPUT_PULLUP);
       update();
     }
+    bool isChanged(){
+      return changed;
+      }
     Button* nopullup(){
       pinMode(pin, INPUT);
       reverse=true;
@@ -39,15 +43,25 @@ class Button {
     virtual void print(bool verbose){
       Serial.print(this->isPressed()); 
     }
+    virtual bool isStateSame(int a,int b){
+        return a == b;
+      }
+    void setNewState(int newstate){
+      if (isStateSame(newstate,state)){
+        changed=false;
+      }else{
+        changed=true;
+       }
+      state = newstate;
+    }
     virtual void update() {
       // You can handle the debounce of the button directly
       // in the class, so you don't have to think about it
       // elsewhere in your code
       byte newReading = digitalRead(pin);
     
-      state = (reverse?!newReading:newReading);
-
-
+      int newstate = (reverse?!newReading:newReading);
+      setNewState(newstate);
     }
     byte getJoybutton() {
       
@@ -75,6 +89,9 @@ class PotAxisButton: public Button {
       pinMode(pin, INPUT);
       update();
     }
+    virtual bool isStateSame(int a,int b){
+        return abs(a - b)<3;
+      }
     void setJoystickState(Joystick_ *Joystick){
      
         if (this->axis=='x'){
@@ -94,8 +111,8 @@ class PotAxisButton: public Button {
     }
     void update() {
       int newReading = analogRead(pin);
-      
-      this->state = (reverse?1023-newReading:newReading);
+      //this->state = 
+      setNewState(reverse?1023-newReading:newReading);
     }
 };
 
@@ -127,7 +144,7 @@ class PotButton: public Button {
           newstate=LOW;
         }
       }
-      state = newstate;
+      setNewState(newstate);
     }
     virtual void print(bool verbose){
       if (verbose){
@@ -155,13 +172,13 @@ class ButtonEngine {
     ButtonEngine() {
 
     }
-    bool addButton(Button *b) {
+    int addButton(Button *b) {
       if (nr_buttons >= maxnrofbuttons) {
-        return false;
+        return -1;
       }
       this->buttons[nr_buttons] = b;
       this->nr_buttons++;
-      return true;
+      return nr_buttons-1;
     }
     void update() {
       for (int i = 0 ; i < nr_buttons; i++) {

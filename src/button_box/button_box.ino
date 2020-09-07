@@ -72,6 +72,9 @@ Joystick_ Joystick;
 //GUL,ORANGE,GRÅ,int sclk, int rclk, int dio
 DigitalTube dis(dispsclk, disprclk, dispdio);
 
+int axisXButtonId;
+int axisYButtonId;
+
 void setup() {
   // Initialize Joystick Library
   Joystick.begin();
@@ -147,9 +150,9 @@ void setup() {
   buttonEngine.addButton((
                            new PotButton(A5, 15))->addLimit(1020));
 
-  buttonEngine.addButton((
+  axisXButtonId=buttonEngine.addButton((
                            new PotAxisButton(A3,'x')));
-   buttonEngine.addButton((
+   axisYButtonId=buttonEngine.addButton((
                            new PotAxisButton(A4,'y'))->setAsReverse());
   
   buttonEngine.update();
@@ -240,12 +243,37 @@ void displayStatus(){
   if (dispPos != lastDispPos) {
     dis.showRaw(((dispPos + 3) % 4) == 0 ? 60 : 73, ((dispPos + 2) % 4) == 0 ? 60 : 73, ((dispPos + 1) % 4) == 0 ? 60 : 73, (dispPos % 4) == 0 ? 60 : 73);
     lastDispPos = dispPos;
+  }else if (buttonEngine.getButton(axisXButtonId)->isChanged()){
+    int value = buttonEngine.getButton(axisXButtonId)->getState() / 10;
+    dis.show(1 + 10, (value / 100) % 10, (value / 10) % 10, value % 10);
+  }else if (buttonEngine.getButton(axisYButtonId)->isChanged()){
+    int value = buttonEngine.getButton(axisYButtonId)->getState() / 10;
+    dis.show(2 + 10, (value / 100) % 10, (value / 10) % 10, value % 10);
   }
   
   //Show on leds
   int switches = (buttonEngine.isButtonOn(6) << 5) | (buttonEngine.isButtonOn(7) << 4) | (buttonEngine.isButtonOn(8) << 3) | (buttonEngine.isButtonOn(9) << 2) | (buttonEngine.isButtonOn(10) << 1);
   int buttons = (buttonEngine.isButtonOn(0) << 5) | (buttonEngine.isButtonOn(1) << 4) | (buttonEngine.isButtonOn(2) << 3) | (buttonEngine.isButtonOn(3) << 2) | (buttonEngine.isButtonOn(4) << 1);
   setLedsIfChanged((switches & ~buttons) | (~switches & buttons) | (1 << 6));
+}
+void sendEncoderStateClear(){
+    Joystick.setButton(16, 0);
+    Joystick.setButton(17, 0);  
+}
+void sendEncoderState(){
+    //encoder
+  
+  if (lastEncoder0Pos == encoder0Pos) {
+    Joystick.setButton(16, 0);
+    Joystick.setButton(17, 0);
+  }else if (lastEncoder0Pos < encoder0Pos) {
+    Joystick.setButton(16, 0);
+    Joystick.setButton(17, 1);
+    }else if (lastEncoder0Pos > encoder0Pos) {
+    Joystick.setButton(16, 1);
+    Joystick.setButton(17, 0);
+    }
+  lastEncoder0Pos = encoder0Pos;
 }
 
 void loop() {
@@ -256,11 +284,12 @@ void loop() {
   //Debug print
   buttonEngine.print(false); 
   Serial.print (encoder0Pos, DEC);
+  sendEncoderState();
 
-  
   //Show state on display and leds
   displayStatus();
 
   Serial.println();
-  delay(50);
+  delay(10);
+  sendEncoderStateClear();
 }
