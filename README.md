@@ -2,7 +2,7 @@
 Button box primarily for flight simulation 
 
 ## Before you look at the code..
-  THIS IS THE AD-HOC HARDWARE-TEST VERSION 0.0.1!
+  The one named "button_box_hardware_test": THIS IS THE AD-HOC HARDWARE-TEST VERSION 0.0.1!
   This is problably one of the ugliest pice of code you have ever seen (at least from me).
   Don't judge me...
 
