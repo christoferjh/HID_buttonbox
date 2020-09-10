@@ -66,8 +66,13 @@ int dispPos = 0;
 ButtonEngine buttonEngine;
 
 
+
 //Create the Joystick
 Joystick_ Joystick;
+
+#define metabuttonid 0
+
+ButtonEngineSettings settings(&Joystick);
 
 //GUL,ORANGE,GRÅ,int sclk, int rclk, int dio
 DigitalTube dis(dispsclk, disprclk, dispdio);
@@ -102,7 +107,7 @@ void setup() {
   buttonEngine.addButton(new Button(4, 2));
   buttonEngine.addButton(new Button(5, 3));
   buttonEngine.addButton(new Button(6, 4));
-  buttonEngine.addButton((new Button(A2, 5))->nopullup());
+  buttonEngine.addButton((new Button(A2, 5, 6))->nopullup());
 
 //  buttonEngine.addButton((
 //                           new PotButton(A1, 6))->addLimit(342)->addLimit(617));
@@ -128,27 +133,27 @@ void setup() {
 //                           new PotButton(A5, 15))->addLimit(1020));
 
   buttonEngine.addButton((
-                           new PotButton(A1, 6))->addLimit(318)->addLimit(607));
+                           new PotButton(A1, 7,8))->addLimit(318)->addLimit(607));
   buttonEngine.addButton((
-                           new PotButton(A1, 7))->addLimit(512)->addLimit(607));
+                           new PotButton(A1, 9,10))->addLimit(512)->addLimit(607));
 
   buttonEngine.addButton((
-                           new PotButton(A0, 8))->addLimit(318)->addLimit(408)->addLimit(606)->addLimit(639));
+                           new PotButton(A0, 11,12))->addLimit(318)->addLimit(408)->addLimit(606)->addLimit(639));
   buttonEngine.addButton((
-                           new PotButton(A0, 9))->addLimit(179)->addLimit(408)->addLimit(560)->addLimit(639));
+                           new PotButton(A0, 13,14))->addLimit(179)->addLimit(408)->addLimit(560)->addLimit(639));
   buttonEngine.addButton((
-                           new PotButton(A0, 10))->addLimit(511)->addLimit(560)->addLimit(606)->addLimit(639));
+                           new PotButton(A0, 15,16))->addLimit(511)->addLimit(560)->addLimit(606)->addLimit(639));
 
   buttonEngine.addButton((
-                           new PotButton(A5, 11))->addLimit(10));
+                           new PotButton(A5, 17))->addLimit(10));
   buttonEngine.addButton((
-                           new PotButton(A5, 12))->addLimit(255));
+                           new PotButton(A5, 18))->addLimit(255));
   buttonEngine.addButton((
-                           new PotButton(A5, 13))->addLimit(510));
+                           new PotButton(A5, 19))->addLimit(510));
   buttonEngine.addButton((
-                           new PotButton(A5, 14))->addLimit(765));
+                           new PotButton(A5, 20))->addLimit(765));
   buttonEngine.addButton((
-                           new PotButton(A5, 15))->addLimit(1020));
+                           new PotButton(A5, 21))->addLimit(1020));
 
   axisXButtonId=buttonEngine.addButton((
                            new PotAxisButton(A3,'x')));
@@ -158,6 +163,8 @@ void setup() {
   buttonEngine.update();
 
   dis.showRaw(60, 60, 60, 60);
+
+  //dis.showRaw((1<<3), ' ', ' ', '1');
   setLedsIfChanged(255);
 }
 
@@ -235,10 +242,8 @@ void setLeds(int number) {
   digitalWrite(latchPin, HIGH);
 }
 
-
-void displayStatus(){
-  
-  //Show rotation on display
+void displayStatusOnLDC(){
+    //Show rotation on display
   dispPos = encoder0Pos / 10;
   if (dispPos != lastDispPos) {
     dis.showRaw(((dispPos + 3) % 4) == 0 ? 60 : 73, ((dispPos + 2) % 4) == 0 ? 60 : 73, ((dispPos + 1) % 4) == 0 ? 60 : 73, (dispPos % 4) == 0 ? 60 : 73);
@@ -251,27 +256,33 @@ void displayStatus(){
     dis.show(2 + 10, (value / 100) % 10, (value / 10) % 10, value % 10);
   }
   
+}
+
+void displayStatus(){
+  
+
+  
   //Show on leds
   int switches = (buttonEngine.isButtonOn(6) << 5) | (buttonEngine.isButtonOn(7) << 4) | (buttonEngine.isButtonOn(8) << 3) | (buttonEngine.isButtonOn(9) << 2) | (buttonEngine.isButtonOn(10) << 1);
   int buttons = (buttonEngine.isButtonOn(0) << 5) | (buttonEngine.isButtonOn(1) << 4) | (buttonEngine.isButtonOn(2) << 3) | (buttonEngine.isButtonOn(3) << 2) | (buttonEngine.isButtonOn(4) << 1);
   setLedsIfChanged((switches & ~buttons) | (~switches & buttons) | (1 << 6));
 }
 void sendEncoderStateClear(){
-    Joystick.setButton(16, 0);
-    Joystick.setButton(17, 0);  
+    Joystick.setButton(27, 0);
+    Joystick.setButton(28, 0);  
 }
 void sendEncoderState(){
     //encoder
   
   if (lastEncoder0Pos == encoder0Pos) {
-    Joystick.setButton(16, 0);
-    Joystick.setButton(17, 0);
+    Joystick.setButton(27, 0);
+    Joystick.setButton(28, 0);
   }else if (lastEncoder0Pos < encoder0Pos) {
-    Joystick.setButton(16, 0);
-    Joystick.setButton(17, 1);
+    Joystick.setButton(27, 0);
+    Joystick.setButton(28, 1);
     }else if (lastEncoder0Pos > encoder0Pos) {
-    Joystick.setButton(16, 1);
-    Joystick.setButton(17, 0);
+    Joystick.setButton(27, 1);
+    Joystick.setButton(28, 0);
     }
   lastEncoder0Pos = encoder0Pos;
 }
@@ -279,7 +290,17 @@ void sendEncoderState(){
 void loop() {
   //Update buttonstates
   buttonEngine.update();
-  buttonEngine.setJoystickState(&Joystick);
+
+  if (buttonEngine.isButtonChangedAndOn(metabuttonid) ){
+    int mode = settings.setNextMode();
+    dis.show('S', ' ', ' ', mode);
+    
+    Serial.print("mode ");
+    Serial.print(mode);
+  }
+  buttonEngine.setJoystickState(&settings);
+
+  
   
   //Debug print
   buttonEngine.print(false); 

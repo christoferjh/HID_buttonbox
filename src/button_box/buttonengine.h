@@ -4,17 +4,58 @@
 #define maxnrofbuttons 25
 #define maxnroflimits 4
 
+#define timeformomentpress 5
+
+class ButtonEngineSettings {
+  public:
+     bool switchIsMoment=true;
+     bool switchIsDouble=true;
+     int mode = 0;
+    Joystick_ *Joystick;
+    ButtonEngineSettings(Joystick_ *Joystick){
+      this->Joystick=Joystick;
+      mode = 0;
+    }
+    
+    virtual int setNextMode(){
+        mode++;
+        if (mode>((1<<1)|(1<<0))){
+          mode = 0;
+        }
+        switchIsDouble = ((1<<0) & mode)>0;
+        switchIsMoment = ((1<<1) & mode)>0;
+        return mode;
+    }
+    virtual bool getSwitchIsDouble(){
+     return switchIsDouble; 
+    }
+    virtual bool getSwitchIsMoment(){
+     return switchIsMoment; 
+    }
+    virtual Joystick_* getJoystick(){
+      return Joystick;
+    }
+};
+
 class Button {
   protected:
     byte pin;
     byte joybutton;
+    byte joybutton2 = 0;
     int state;
     bool changed=true;
+    int sinceChange=0;
     bool reverse=false;
   public:
     Button(byte pin, byte joybutton) {
       this->pin = pin;
       this->joybutton = joybutton;
+      init();
+    }
+    Button(byte pin, byte joybutton, byte joybutton2) {
+      this->pin = pin;
+      this->joybutton = joybutton;
+      this->joybutton2 = joybutton2;
       init();
     }
     Button(byte pin) {
@@ -34,11 +75,50 @@ class Button {
       update();
       return this;
     }
-    virtual void setJoystickState(Joystick_ *Joystick){
-     
+    bool isTraceOn(){
+      return false;
+      //return this->isMomentButton();
+    }
+    virtual void setJoystickState(ButtonEngineSettings *settings){
+      Joystick_ *Joystick = settings->getJoystick();
+      
+      if (isTraceOn()){Serial.print(sinceChange);Serial.print(" setJoystickState");}
+      
+      if (settings->getSwitchIsMoment() && this->isMomentButton() && !this->isChanged()){
+
+        if (sinceChange<timeformomentpress){
+          sinceChange++;
+        }else {
+          Joystick->setButton(this->getJoybutton(), 0);
+          if (this->isDoubleSwitch()){
+            Joystick->setButton(this->getJoybutton2(), 0);
+          }
+        }
+        return;
+      }
+
+
+      if (settings->getSwitchIsDouble() && this->isDoubleSwitch()){
+       // if (this->isChanged()){ //only send changes
+            //if (this->isPressed()){
+             // Joystick->setButton(this->getJoybutton(), this->isPressed());
+              //Joystick->setButton(this->getJoybutton2(), 0); //reset elsewhere
+            //}else{
+              //Joystick->setButton(this->getJoybutton(), 0);
+             // Joystick->setButton(this->getJoybutton2(), this->isPressed());  
+            //}
+       // }
+         if (this->isPressed()){
+            Joystick->setButton(this->getJoybutton(), 1);
+            Joystick->setButton(this->getJoybutton2(), 0);
+         }else{
+            Joystick->setButton(this->getJoybutton(), 0);
+            Joystick->setButton(this->getJoybutton2(), 1);
+         }
+      }else{
         
         Joystick->setButton(this->getJoybutton(), this->isPressed());
-      
+      }
     }
     virtual void print(bool verbose){
       Serial.print(this->isPressed()); 
@@ -51,6 +131,7 @@ class Button {
         changed=false;
       }else{
         changed=true;
+        sinceChange = 0;
        }
       state = newstate;
     }
@@ -63,9 +144,20 @@ class Button {
       int newstate = (reverse?!newReading:newReading);
       setNewState(newstate);
     }
+    virtual bool isMomentButton(){
+      //return false;
+      return this->isDoubleSwitch();  
+    }
+    virtual bool isDoubleSwitch(){
+      return joybutton2>0;  
+    }
     byte getJoybutton() {
       
       return joybutton;
+    }
+    byte getJoybutton2() {
+      
+      return joybutton2;
     }
     int getState() {
       //update();
@@ -92,8 +184,8 @@ class PotAxisButton: public Button {
     virtual bool isStateSame(int a,int b){
         return abs(a - b)<3;
       }
-    void setJoystickState(Joystick_ *Joystick){
-     
+    void setJoystickState(ButtonEngineSettings *settings){
+      Joystick_ *Joystick = settings->getJoystick();
         if (this->axis=='x'){
           Joystick->setXAxis(this->state);
         }else if (this->axis=='y'){
@@ -124,8 +216,9 @@ class PotButton: public Button {
     int lastRead;
   public:
     PotButton(byte pin, byte joybutton) : Button(pin, joybutton) {
-      //this->limits = limits;
-      //this->nrlimits = nrlimits;
+      pinMode(pin, INPUT);
+    }
+    PotButton(byte pin, byte joybutton, byte joybutton2) : Button(pin, joybutton,joybutton2) {
       pinMode(pin, INPUT);
     }
      virtual void init() {
@@ -186,10 +279,11 @@ class ButtonEngine {
         b->update();
       }
     }
-    void setJoystickState(Joystick_ *Joystick){
+    void setJoystickState(ButtonEngineSettings *settings ){
+      //Joystick_ *Joystick = settings->getJoystick();
       for (int i = 0 ; i < nr_buttons; i++) {
         Button *b = buttons[i];
-        b->setJoystickState(Joystick);
+        b->setJoystickState(settings);
         //Joystick->setButton(b->getJoybutton(), b->isPressed());
       }
     }
@@ -203,6 +297,12 @@ class ButtonEngine {
         b->print(verbose); Serial.print(", ");
       }
     }
+    bool isButtonChangedAndOn(int nr){
+      if (nr > nr_buttons) {
+        //return null;
+      }
+      return buttons[nr]->isChanged() && buttons[nr]->isPressed();
+      }
     bool isButtonOn(int nr){
       if (nr > nr_buttons) {
         //return null;
