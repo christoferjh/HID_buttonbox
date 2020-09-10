@@ -33,7 +33,7 @@
 #include <Joystick.h>
 #include <DigitalTube.h>
 #include "buttonengine.h"
-
+#include "numdisp.h"
 //Define constants
 //Rotary Encoder
 #define encoder0PinA  0
@@ -71,11 +71,13 @@ ButtonEngine buttonEngine;
 Joystick_ Joystick;
 
 #define metabuttonid 0
+#define metabutton2id 4
 
 ButtonEngineSettings settings(&Joystick);
 
 //GUL,ORANGE,GRÅ,int sclk, int rclk, int dio
-DigitalTube dis(dispsclk, disprclk, dispdio);
+//DigitalTube dis(dispsclk, disprclk, dispdio);
+NumDisp disp(dispsclk, disprclk, dispdio);
 
 int axisXButtonId;
 int axisYButtonId;
@@ -87,7 +89,11 @@ void setup() {
   Serial.begin(115200);
   Serial.println("hello");
 
-  dis.begin();
+  //dis.begin();
+  disp.begin();
+
+  Timer3.initialize(5000);
+  Timer3.attachInterrupt(timer3intr);
 
   pinMode(latchPin, OUTPUT);
   pinMode(dataPin, OUTPUT);
@@ -162,13 +168,16 @@ void setup() {
   
   buttonEngine.update();
 
-  dis.showRaw(60, 60, 60, 60);
+//  dis.showRaw(60, 60, 60, 60);
 
   //dis.showRaw((1<<3), ' ', ' ', '1');
+  disp.show('1', '2', '3', '4');
   setLedsIfChanged(255);
 }
 
-
+void timer3intr(){
+  disp.send();
+  }
 
 void doEncoderA() {
   // look for a low-to-high on channel A
@@ -246,20 +255,20 @@ void displayStatusOnLDC(){
     //Show rotation on display
   dispPos = encoder0Pos / 10;
   if (dispPos != lastDispPos) {
-    dis.showRaw(((dispPos + 3) % 4) == 0 ? 60 : 73, ((dispPos + 2) % 4) == 0 ? 60 : 73, ((dispPos + 1) % 4) == 0 ? 60 : 73, (dispPos % 4) == 0 ? 60 : 73);
+    disp.showRaw(((dispPos + 3) % 4) == 0 ? 60 : 73, ((dispPos + 2) % 4) == 0 ? 60 : 73, ((dispPos + 1) % 4) == 0 ? 60 : 73, (dispPos % 4) == 0 ? 60 : 73);
     lastDispPos = dispPos;
   }else if (buttonEngine.getButton(axisXButtonId)->isChanged()){
     int value = buttonEngine.getButton(axisXButtonId)->getState() / 10;
-    dis.show(1 + 10, (value / 100) % 10, (value / 10) % 10, value % 10);
+    disp.show(1 + 10, (value / 100) % 10, (value / 10) % 10, value % 10);
   }else if (buttonEngine.getButton(axisYButtonId)->isChanged()){
     int value = buttonEngine.getButton(axisYButtonId)->getState() / 10;
-    dis.show(2 + 10, (value / 100) % 10, (value / 10) % 10, value % 10);
+    disp.show(2 + 10, (value / 100) % 10, (value / 10) % 10, value % 10);
   }
   
 }
 
 void displayStatus(){
-  
+  displayStatusOnLDC();
 
   
   //Show on leds
@@ -290,10 +299,10 @@ void sendEncoderState(){
 void loop() {
   //Update buttonstates
   buttonEngine.update();
-
-  if (buttonEngine.isButtonChangedAndOn(metabuttonid) ){
+//disp.send();
+  if (buttonEngine.isButtonOn(metabuttonid) && buttonEngine.isButtonChangedAndOn(metabutton2id)){
     int mode = settings.setNextMode();
-    dis.show('S', ' ', ' ', mode);
+    disp.show('S', ' ', ' ', mode);
     
     Serial.print("mode ");
     Serial.print(mode);
@@ -303,8 +312,8 @@ void loop() {
   
   
   //Debug print
-  buttonEngine.print(false); 
-  Serial.print (encoder0Pos, DEC);
+  //buttonEngine.print(false); 
+  //Serial.print (encoder0Pos, DEC);
   sendEncoderState();
 
   //Show state on display and leds

@@ -10,7 +10,7 @@ class ButtonEngineSettings {
   public:
      bool switchIsMoment=true;
      bool switchIsDouble=true;
-     int mode = 0;
+     int mode = 3;
     Joystick_ *Joystick;
     ButtonEngineSettings(Joystick_ *Joystick){
       this->Joystick=Joystick;
@@ -182,7 +182,7 @@ class PotAxisButton: public Button {
       update();
     }
     virtual bool isStateSame(int a,int b){
-        return abs(a - b)<3;
+        return abs(a - b)<5;
       }
     void setJoystickState(ButtonEngineSettings *settings){
       Joystick_ *Joystick = settings->getJoystick();
