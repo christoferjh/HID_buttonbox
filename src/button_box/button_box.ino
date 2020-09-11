@@ -151,7 +151,7 @@ void setup() {
                            new PotButton(A0, 15,16))->addLimit(511)->addLimit(560)->addLimit(606)->addLimit(639));
 
   buttonEngine.addButton((
-                           new PotButton(A5, 17))->addLimit(10));
+                           new PotButton(A5, 17))->addLimit(10));//->setCallback([](){})
   buttonEngine.addButton((
                            new PotButton(A5, 18))->addLimit(255));
   buttonEngine.addButton((
@@ -171,8 +171,35 @@ void setup() {
 //  dis.showRaw(60, 60, 60, 60);
 
   //dis.showRaw((1<<3), ' ', ' ', '1');
+  
   disp.show('1', '2', '3', '4');
   setLedsIfChanged(255);
+
+  
+  //disp.setIsRaw(true);
+  //disp.show(~(1<<1), 0xFF, 0xFF, 0);  
+  //for (char i = 0; i<10;i++){
+  //disp.show(255-i, 0xFF, 0xFF, i); 
+  //disp.show(~(1<<i), 0xFF, 0xFF, 0);   
+  //delay(1000);
+  //}
+showAnimation();
+  
+}
+
+void showAnimation(){
+  disp.showRaw(0xFF,0xFF,0xFF,0xFF);
+  char k=0;
+  for (char i = 2; i<8;i++){
+    k|=(1<<i);
+    disp.showRaw(~k,~k,~k,~k);
+    delay(100);
+  }
+  for (char i = 2; i<8;i++){
+    k&=~(1<<i);
+    disp.showRaw(~k,~k,~k,~k);
+    delay(100);
+  }
 }
 
 void timer3intr(){
@@ -255,7 +282,7 @@ void displayStatusOnLDC(){
     //Show rotation on display
   dispPos = encoder0Pos / 10;
   if (dispPos != lastDispPos) {
-    disp.showRaw(((dispPos + 3) % 4) == 0 ? 60 : 73, ((dispPos + 2) % 4) == 0 ? 60 : 73, ((dispPos + 1) % 4) == 0 ? 60 : 73, (dispPos % 4) == 0 ? 60 : 73);
+    disp.showH(((dispPos + 3) % 4) == 0 ? 60 : 73, ((dispPos + 2) % 4) == 0 ? 60 : 73, ((dispPos + 1) % 4) == 0 ? 60 : 73, (dispPos % 4) == 0 ? 60 : 73);
     lastDispPos = dispPos;
   }else if (buttonEngine.getButton(axisXButtonId)->isChanged()){
     int value = buttonEngine.getButton(axisXButtonId)->getState() / 10;
@@ -302,8 +329,9 @@ void loop() {
 //disp.send();
   if (buttonEngine.isButtonOn(metabuttonid) && buttonEngine.isButtonChangedAndOn(metabutton2id)){
     int mode = settings.setNextMode();
+    //showAnimation();
     disp.show('S', ' ', ' ', mode);
-    
+    //disp.showRaw(~(1<<mode),0xFF,0xFF,0xFF);
     Serial.print("mode ");
     Serial.print(mode);
   }

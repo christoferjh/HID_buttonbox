@@ -79,6 +79,14 @@ class Button {
       return false;
       //return this->isMomentButton();
     }
+    /**
+    template <typename F>
+    Button* setCallback(F&& lambda){
+      
+      return this;
+    }
+    **/
+
     virtual void setJoystickState(ButtonEngineSettings *settings){
       Joystick_ *Joystick = settings->getJoystick();
       

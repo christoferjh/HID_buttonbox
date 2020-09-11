@@ -6,7 +6,16 @@ class NumDisp{
     int pin_sclk;
     int pin_rclk;
     int pin_dio;
+    bool raw = false;
     int NextDigi = 0;
+    /**
+     *  ___        7
+     * |   |     2   6
+     *  ---        1
+     * |   |     3   5
+     *  ---  .     4    0
+     * 
+     */
     char disp[8], characters[74] = {
     0x03, 0x9F, 0x25, 0x0D, 0x99, 0x49, 0x41, 0x1F, 0x01, 0x09, // 0  -  9
     0x02, 0x9E, 0x24, 0x0C, 0x98, 0x48, 0x40, 0x1E, 0x00, 0x08, // 0. -  9.
@@ -29,14 +38,32 @@ class NumDisp{
 
     
   }
+  void setIsRaw(bool raw){
+    this->raw = raw;
+    }
   void send(){
     digitalWrite(this->pin_rclk, LOW);
-    shiftOut(this->pin_dio, this->pin_sclk, LSBFIRST, this->characters[this->disp[this->NextDigi]]);
+    shiftOut(this->pin_dio, this->pin_sclk, LSBFIRST, (this->raw?this->disp[this->NextDigi]:this->characters[this->disp[this->NextDigi]]));
     shiftOut(this->pin_dio, this->pin_sclk, LSBFIRST, 0x80>>this->NextDigi);
     digitalWrite(this->pin_rclk, HIGH);
     this->NextDigi = (this->NextDigi >= 3 ? 0 : this->NextDigi+1);
   }
-
+  void showRaw(char digiOne, char digiTwo, char digiTree, char digiFour){
+    //disp.show(~(1<<i), 0xFF, 0xFF, 0); 
+    this->disp[0] = digiFour;
+  this->disp[1] = digiTree;
+  this->disp[2] = digiTwo;
+  this->disp[3] = digiOne;
+  this->setIsRaw(true);
+    }
+    void showH(char digiOne, char digiTwo, char digiTree, char digiFour){
+    //disp.show(~(1<<i), 0xFF, 0xFF, 0); 
+    this->disp[0] = digiFour;
+  this->disp[1] = digiTree;
+  this->disp[2] = digiTwo;
+  this->disp[3] = digiOne;
+  this->setIsRaw(false);
+    }
   void show(char digiOne, char digiTwo, char digiTree, char digiFour) {
     this->disp[0] = digiFour;
   this->disp[1] = digiTree;
@@ -52,14 +79,9 @@ class NumDisp{
     
     this->disp[i] = val;
   }
+  this->setIsRaw(false);
 }
 
-void showRaw(char digiOne, char digiTwo, char digiTree, char digiFour) {
-  this->disp[0] = digiFour;
-  this->disp[1] = digiTree;
-  this->disp[2] = digiTwo;
-  this->disp[3] = digiOne;
-}
 
 void print(int number) {
   show((number/1000)%10, (number/100)%10, (number/10)%10, number%10);
