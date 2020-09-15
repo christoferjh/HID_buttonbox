@@ -34,10 +34,11 @@
 #include <DigitalTube.h>
 #include "buttonengine.h"
 #include "numdisp.h"
+#include "encoder.h"
 //Define constants
 //Rotary Encoder
-#define encoder0PinA  0
-#define encoder0PinB  1
+#define encoder0PinA  1
+#define encoder0PinB  0
 
 volatile unsigned int encoder0Pos = 0;
 int unsigned lastEncoder0Pos = 0;
@@ -65,7 +66,7 @@ int dispPos = 0;
 //Define the button engine
 ButtonEngine buttonEngine;
 
-
+Rotary rotary = Rotary(encoder0PinA, encoder0PinB);
 
 //Create the Joystick
 Joystick_ Joystick;
@@ -81,6 +82,17 @@ NumDisp disp(dispsclk, disprclk, dispdio);
 
 int axisXButtonId;
 int axisYButtonId;
+int rotEncButtonId;
+
+char selectorChar = '0';
+
+void setSelectorChar(char c){
+  selectorChar = c;
+  Serial.print (selectorChar);
+
+  buttonEngine.getButton(rotEncButtonId)->applyMeta(&settings,c);
+  disp.show(selectorChar,' ',' ',' ');
+}
 
 void setup() {
   // Initialize Joystick Library
@@ -105,8 +117,11 @@ void setup() {
   */
   pinMode(encoder0PinA, INPUT_PULLUP);
   pinMode(encoder0PinB, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(encoder0PinA), doEncoderA, CHANGE);
-  attachInterrupt(digitalPinToInterrupt(encoder0PinB), doEncoderB, CHANGE);  
+  //attachInterrupt(digitalPinToInterrupt(encoder0PinA), doEncoderA, CHANGE);
+  //attachInterrupt(digitalPinToInterrupt(encoder0PinB), doEncoderB, CHANGE);  
+  attachInterrupt(digitalPinToInterrupt(encoder0PinA), doEncoder, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(encoder0PinB), doEncoder, CHANGE);  
+
 
   buttonEngine.addButton(new Button(2, 0));
   buttonEngine.addButton(new Button(3, 1));
@@ -151,20 +166,23 @@ void setup() {
                            new PotButton(A0, 15,16))->addLimit(511)->addLimit(560)->addLimit(606)->addLimit(639));
 
   buttonEngine.addButton((
-                           new PotButton(A5, 17))->addLimit(10));//->setCallback([](){})
+                           new PotButton(A5, 17))->addLimit(10)->setSelectorCharCallback('1',&setSelectorChar));//->setCallback([](){})
   buttonEngine.addButton((
-                           new PotButton(A5, 18))->addLimit(255));
+                           new PotButton(A5, 18))->addLimit(255)->setSelectorCharCallback('2',&setSelectorChar));
   buttonEngine.addButton((
-                           new PotButton(A5, 19))->addLimit(510));
+                           new PotButton(A5, 19))->addLimit(510)->setSelectorCharCallback('3',&setSelectorChar));
   buttonEngine.addButton((
-                           new PotButton(A5, 20))->addLimit(765));
+                           new PotButton(A5, 20))->addLimit(765)->setSelectorCharCallback('4',&setSelectorChar));
   buttonEngine.addButton((
-                           new PotButton(A5, 21))->addLimit(1020));
+                           new PotButton(A5, 21))->addLimit(1020)->setSelectorCharCallback('5',&setSelectorChar));
 
   axisXButtonId=buttonEngine.addButton((
                            new PotAxisButton(A3,'x')));
    axisYButtonId=buttonEngine.addButton((
                            new PotAxisButton(A4,'y'))->setAsReverse());
+
+  rotEncButtonId=buttonEngine.addButton((
+                           new RotEncButton(&encoder0Pos))->addEncState('1',22,23)->addEncState('2',24,25)->addEncState('3',26,27)->addEncState('4',28,29)->addEncState('5',30,31));
   
   buttonEngine.update();
 
@@ -183,9 +201,13 @@ void setup() {
   //disp.show(~(1<<i), 0xFF, 0xFF, 0);   
   //delay(1000);
   //}
+    buttonEngine.restart();
+    loop();
 showAnimation();
-  
+
 }
+
+
 
 void showAnimation(){
   disp.showRaw(0xFF,0xFF,0xFF,0xFF);
@@ -205,6 +227,18 @@ void showAnimation(){
 void timer3intr(){
   disp.send();
   }
+
+// rotate is called anytime the rotary inputs change state.
+void doEncoder() {
+  unsigned char result = rotary.process();
+  if (result == DIR_CW) {
+    encoder0Pos++;
+    //Serial.println(counter);
+  } else if (result == DIR_CCW) {
+    encoder0Pos--;
+    //Serial.println(counter);
+  }
+}
 
 void doEncoderA() {
   // look for a low-to-high on channel A
@@ -278,11 +312,16 @@ void setLeds(int number) {
   digitalWrite(latchPin, HIGH);
 }
 
+char getActiveKnobSelector(){
+  
+}
+
 void displayStatusOnLDC(){
     //Show rotation on display
   dispPos = encoder0Pos / 10;
   if (dispPos != lastDispPos) {
-    disp.showH(((dispPos + 3) % 4) == 0 ? 60 : 73, ((dispPos + 2) % 4) == 0 ? 60 : 73, ((dispPos + 1) % 4) == 0 ? 60 : 73, (dispPos % 4) == 0 ? 60 : 73);
+    //disp.showH(((dispPos + 3) % 4) == 0 ? 60 : 73, ((dispPos + 2) % 4) == 0 ? 60 : 73, ((dispPos + 1) % 4) == 0 ? 60 : 73, (dispPos % 4) == 0 ? 60 : 73);
+    disp.show(selectorChar, ((dispPos + 2) % 3) == 0 ? 'o' : ' ', ((dispPos + 1) % 3) == 0 ? 'o' : ' ', (dispPos % 3) == 0 ? 'o' : ' ');
     lastDispPos = dispPos;
   }else if (buttonEngine.getButton(axisXButtonId)->isChanged()){
     int value = buttonEngine.getButton(axisXButtonId)->getState() / 10;
@@ -342,12 +381,14 @@ void loop() {
   //Debug print
   //buttonEngine.print(false); 
   //Serial.print (encoder0Pos, DEC);
-  sendEncoderState();
+  //sendEncoderState();
 
   //Show state on display and leds
   displayStatus();
 
   Serial.println();
-  delay(10);
-  sendEncoderStateClear();
+  delay(5);
+  //sendEncoderStateClear();
+  buttonEngine.cleanJoystickState(&settings);
+  delay(5);
 }

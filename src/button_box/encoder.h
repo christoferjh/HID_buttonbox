@@ -1,14 +1,14 @@
-/*
- * Example using the Rotary library, dumping integers to the serial
- * port. The integers increment or decrement depending on the direction
- * of rotation.
- *
- * This example uses interrupts rather than polling.
+/**
+ * https://github.com/buxtronix/arduino/tree/master/libraries/Rotary
+ */
+ /*
+ * Rotary encoder library for Arduino.
  */
 
-
+#ifndef rotary_h
+#define rotary_h
 // Enable this to emit codes twice per step.
-//#define HALF_STEP
+#define HALF_STEP
 
 // Enable weak pullups
 #define ENABLE_PULLUPS
@@ -32,6 +32,7 @@ class Rotary
     unsigned char pin1;
     unsigned char pin2;
 };
+
 
 /* Rotary encoder handler for arduino. v1.1
  *
@@ -95,14 +96,13 @@ class Rotary
  * than 10 lines of logic.
  */
 
-
 /*
  * The below state table has, for each state (row), the new state
  * to set based on the next encoder output. From left to right in,
  * the table, the encoder outputs are 00, 01, 10, 11, and the value
  * in that position is the new state to set.
  */
-#define HALF_STEP 1
+
 #define R_START 0x0
 
 #ifdef HALF_STEP
@@ -180,34 +180,5 @@ unsigned char Rotary::process() {
   return state & 0x30;
 }
 
-// Rotary encoder is wired with the common to ground and the two
-// outputs to pins 2 and 3.
-#define encoder0PinA  1
-#define encoder0PinB  0
-Rotary rotary = Rotary(encoder0PinA, encoder0PinB);
-
-// Counter that will be incremented or decremented by rotation.
-int counter = 0;
-
-void setup() {
-  Serial.begin(9600);
-  //attachInterrupt(0, rotate, CHANGE);
-  //attachInterrupt(1, rotate, CHANGE);
-    attachInterrupt(digitalPinToInterrupt(encoder0PinA), rotate, CHANGE);
-  attachInterrupt(digitalPinToInterrupt(encoder0PinB), rotate, CHANGE);  
-}
-
-void loop() {
-}
-
-// rotate is called anytime the rotary inputs change state.
-void rotate() {
-  unsigned char result = rotary.process();
-  if (result == DIR_CW) {
-    counter++;
-    Serial.println(counter);
-  } else if (result == DIR_CCW) {
-    counter--;
-    Serial.println(counter);
-  }
-}
+#endif
+ 

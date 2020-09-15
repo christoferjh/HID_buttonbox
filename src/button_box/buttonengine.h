@@ -46,6 +46,8 @@ class Button {
     bool changed=true;
     int sinceChange=0;
     bool reverse=false;
+    void (*callback)(char) = 0;
+    char selectorChar;
   public:
     Button(byte pin, byte joybutton) {
       this->pin = pin;
@@ -61,6 +63,15 @@ class Button {
     Button(byte pin) {
       this->pin = pin;
       init();
+    }
+    Button() {
+     
+    }
+    virtual void applyMeta(ButtonEngineSettings *settings,char key) {
+      
+    }
+    virtual void restart() {
+      state=-1;
     }
     virtual void init() {
       pinMode(pin, INPUT_PULLUP);
@@ -86,7 +97,13 @@ class Button {
       return this;
     }
     **/
-
+    Button* setSelectorCharCallback(char c, void (*foo)(char)){
+      this->callback = foo;
+      this->selectorChar = c;
+      return this;
+      }
+    virtual void cleanJoystickState(ButtonEngineSettings *settings){
+    }
     virtual void setJoystickState(ButtonEngineSettings *settings){
       Joystick_ *Joystick = settings->getJoystick();
       
@@ -151,6 +168,14 @@ class Button {
     
       int newstate = (reverse?!newReading:newReading);
       setNewState(newstate);
+
+      runCallback();
+    }
+    virtual void runCallback(){
+    //run callback if changed and pressed
+      if (callback != 0 && isChanged() && isPressed()){
+        callback( selectorChar );
+      }  
     }
     virtual bool isMomentButton(){
       //return false;
@@ -213,6 +238,7 @@ class PotAxisButton: public Button {
       int newReading = analogRead(pin);
       //this->state = 
       setNewState(reverse?1023-newReading:newReading);
+      runCallback();
     }
 };
 
@@ -246,6 +272,7 @@ class PotButton: public Button {
         }
       }
       setNewState(newstate);
+      runCallback();
     }
     virtual void print(bool verbose){
       if (verbose){
@@ -259,6 +286,87 @@ class PotButton: public Button {
       this->nrlimits++;
       return this;
     }
+};
+
+#define ROT_NONE 0
+#define ROT_CW 1
+#define ROT_CCW -1
+
+class RotEncButton: public Button {
+  private:
+    int unsigned lastEncoderPos = 0;
+    volatile unsigned int *encoderPos;
+    char encStatesCCW[maxnrofbuttons];
+    char encStatesCW[maxnrofbuttons];
+    char encStateKey[maxnrofbuttons];
+    int nrencStates = 0;
+  public:
+  RotEncButton(volatile unsigned int *encoderPos) : Button() {
+      //this->joybutton = joybutton;
+      //this->joybutton2 = joybutton2;
+      this->encoderPos = encoderPos;
+  }
+
+    RotEncButton * addEncState(char c,char joybuttonCCW,char joybuttonCW){
+      this->encStateKey[nrencStates] = c;
+      this->encStatesCCW[nrencStates] = joybuttonCCW;
+      this->encStatesCW[nrencStates] = joybuttonCW;
+      this->nrencStates++;
+      return this;
+    }
+   void cleanJoystickState(ButtonEngineSettings *settings){
+    Joystick_ *Joystick = settings->getJoystick();
+    Joystick->setButton(this->getJoybutton(), 0);
+    Joystick->setButton(this->getJoybutton2(), 0);
+    }
+  void setJoystickState(ButtonEngineSettings *settings){
+      Joystick_ *Joystick = settings->getJoystick();
+
+      if (this->state == ROT_NONE){
+            Joystick->setButton(this->getJoybutton(), 0);
+            Joystick->setButton(this->getJoybutton2(), 0);
+        }else if (this->state == ROT_CCW){
+          Joystick->setButton(this->getJoybutton(), 0);
+           Joystick->setButton(this->getJoybutton2(), 1);
+        }else if (this->state == ROT_CW){
+          Joystick->setButton(this->getJoybutton(), 1);
+           Joystick->setButton(this->getJoybutton2(), 0);
+        }
+
+      
+    }
+    virtual void applyMeta(ButtonEngineSettings *settings,char key) {
+      
+      for (int i = 0 ; i < nrencStates; i++) {
+        if (encStateKey[i]==key){
+          Joystick_ *Joystick = settings->getJoystick();
+          Joystick->setButton(this->getJoybutton(), 0);
+          Joystick->setButton(this->getJoybutton2(), 0);
+          this->joybutton = encStatesCCW[i];
+          this->joybutton2 = encStatesCW[i];
+          
+          break;
+        }
+       }
+    }
+    void update() {
+      //clear 
+      
+      setRotation(lastEncoderPos - *encoderPos);
+      
+      lastEncoderPos = *encoderPos;
+      //setNewState(newstate);
+      runCallback();
+    }
+  void setRotation(char direction){
+    if (direction == 0) {
+      setNewState(ROT_NONE);
+    }else if (direction < 0) {
+      setNewState(ROT_CCW);
+    }else if (direction > 0) {
+      setNewState(ROT_CW);
+    }
+  }
 };
 
 /**
@@ -287,6 +395,15 @@ class ButtonEngine {
         b->update();
       }
     }
+  void cleanJoystickState(ButtonEngineSettings *settings ){
+      //Joystick_ *Joystick = settings->getJoystick();
+      for (int i = 0 ; i < nr_buttons; i++) {
+        Button *b = buttons[i];
+        b->cleanJoystickState(settings);
+        //Joystick->setButton(b->getJoybutton(), b->isPressed());
+      }
+    }
+    
     void setJoystickState(ButtonEngineSettings *settings ){
       //Joystick_ *Joystick = settings->getJoystick();
       for (int i = 0 ; i < nr_buttons; i++) {
@@ -303,6 +420,14 @@ class ButtonEngine {
           Serial.print(i);Serial.print(" ");
         }
         b->print(verbose); Serial.print(", ");
+      }
+    }
+
+    void restart() {
+      for (int i = 0 ; i < nr_buttons; i++) {
+        Button *b = buttons[i];
+         
+        b->restart();
       }
     }
     bool isButtonChangedAndOn(int nr){

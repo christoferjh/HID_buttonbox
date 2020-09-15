@@ -58,11 +58,21 @@ class NumDisp{
     }
     void showH(char digiOne, char digiTwo, char digiTree, char digiFour){
     //disp.show(~(1<<i), 0xFF, 0xFF, 0); 
-    this->disp[0] = digiFour;
-  this->disp[1] = digiTree;
-  this->disp[2] = digiTwo;
-  this->disp[3] = digiOne;
-  this->setIsRaw(false);
+      this->disp[0] = digiFour;
+      this->disp[1] = digiTree;
+      this->disp[2] = digiTwo;
+      this->disp[3] = digiOne;
+      this->setIsRaw(false);
+    }
+
+   void showH3(char digiOne, char digiTwo, char digiTree, char digiFour){
+    //disp.show(~(1<<i), 0xFF, 0xFF, 0); 
+      this->show(digiOne, digiTwo, digiTree, digiFour);
+      this->disp[0] = digiFour;
+      this->disp[1] = digiTree;
+      //this->disp[2] = digiTwo;
+      //this->disp[3] = digiOne;
+      this->setIsRaw(false);
     }
   void show(char digiOne, char digiTwo, char digiTree, char digiFour) {
     this->disp[0] = digiFour;
