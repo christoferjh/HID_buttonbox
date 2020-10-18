@@ -93,4 +93,4 @@ This is almost correct:
 
 # Bonus content, easy DIY flight yoke
 ![schematic](https://github.com/christoferjh/HID_buttonbox/blob/master/images/yoke.PNG)
-[On hackaday](https://hackaday.com/2020/10/17/turning-a-desk-drawer-into-a-flight-yoke/#comment-6287213)
+[On hackaday](https://hackaday.com/2020/10/17/turning-a-desk-drawer-into-a-flight-yoke/)
